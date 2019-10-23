@@ -45,49 +45,55 @@ public class CIDR implements TabExecutor {
 		
 		Map<String, String> data = new HashMap<String, String>();
 		switch (args[0].toLowerCase()) {
-		/* Adding a new CIDR block to the list */
+
+		/* Adding new CIDR block(s) to the list */
 		case "add":
 			if (args.length == 1) {
 				plugin.msg("help", sender);
 				return true;
 			}
 
-			String ip = "";	int bits = 32;
-			String[] tmp = args[1].split("/");
-
-			ip = tmp[0];
-			data.put("%ip%", tmp[0]);
-			data.put("%bits%", (tmp.length == 1)?"32":tmp[1]);
-
-			try {
-				if (tmp.length == 2) bits = Integer.valueOf(tmp[1]);
-			} catch (NumberFormatException ex) {
-				plugin.msg("invalid-bits", sender, data);
-				return true;
+			for (int x=1; x<args.length; x++) {
+				String ip = "";	int bits = 32;
+				String[] tmp = args[x].split("/");
+	
+				ip = tmp[0];
+				data.put("%ip%", tmp[0]);
+				data.put("%bits%", (tmp.length == 1)?"32":tmp[1]);
+				data.put("%cidr%", args[x]);
+	
+				try {
+					if (tmp.length == 2) bits = Integer.valueOf(tmp[1]);
+				} catch (NumberFormatException ex) {
+					plugin.msg("invalid-bits", sender, data);
+					return true;
+				}
+	
+				if (bits > 32 || bits < 1) {
+					plugin.msg("invalid-bits", sender, data);
+					return true;
+				}
+				if (!isIPv4(ip)) {
+					plugin.msg("invalid-ip", sender, data);
+					return true;
+				}
+				
+				plugin.msg("cidr-add-" + ((plugin.addCIDR(ip + "/" + String.valueOf(bits)))?"good":"fail"), sender, data);
 			}
-
-			if (bits > 32 || bits < 1) {
-				plugin.msg("invalid-bits", sender, data);
-				return true;
-			}
-			if (!isIPv4(ip)) {
-				plugin.msg("invalid-ip", sender, data);
-				return true;
-			}
-			
-			plugin.msg("cidr-add-" + ((plugin.addCIDR(ip + "/" + String.valueOf(bits)))?"good":"fail"), sender, data);
 			break;
 
 			
-		/* Removing a CIDR block from the list */
+		/* Removing CIDR block(s) from the list */
 		case "del":
 			if (args.length == 1) {
 				plugin.msg("help", sender);
 				return true;
 			}
 
-			data.put("%cidr%", args[1]);
-			plugin.msg("cidr-remove-" + ((plugin.delCIDR(args[1] + ((args[1].indexOf('/') == -1)?"/32":"")))?"good":"fail"), sender, data);
+			for (int x=1; x<args.length; x++) {
+				data.put("%cidr%", args[x]);
+				plugin.msg("cidr-remove-" + ((plugin.delCIDR(args[x] + ((args[x].indexOf('/') == -1)?"/32":"")))?"good":"fail"), sender, data);
+			}
 			break;
 
 			
