@@ -1,0 +1,8 @@
+name: CIDRblacklist
+author: Strahan
+main: com.sylvcraft.CIDRblacklist
+version: 1.0
+description: Blocks clients from login if their IP matches specified CIDR range(s)
+commands:
+  cidr:
+    description: Control command
