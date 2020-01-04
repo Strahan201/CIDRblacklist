@@ -1,9 +1,8 @@
 messages:
   access-denied: '&cAccess denied!'
   calc-url: '&6A good CIDR calculator can be found at &ehttps://www.ipaddressguide.com/cidr'
-  blocked: 'I am sorry, but connections from your IP address are disallowed!'
   reloaded: '&eConfiguration reloaded'
-  help: '&ecidr &7[&eadd &6cidr&7] [&edel &6cidr&7] [&etest &6ip&7] [&elist&7] [&ecalc&7]'
+  help: '&ecidr &7[&eadd &6cidr&7] [&edel &6cidr&7] [&etest &6ip&7] [&elist&7] [&ecalc&7] [&ereason &6cidr|* (reason)&7]'
   invalid-bits: '&6%bits% &cin &6%cidr% &cis not a valid CIDR bitdepth!'
   invalid-ip: '&6%ip% &cin &6%cidr% &cis not a valid IP! (IPv4 only)'
   cidr-add-good: '&e%ip%/%bits% &6has been blacklisted'
@@ -15,3 +14,10 @@ messages:
   list-data: '&6%cidr%'
   test-good: '&6%ip% &amatches &6the blacklist'
   test-fail: '&6%ip% &cdoes not match &6the blacklist'
+  reason-set: '&eBlock reason set to "&6%reason%&e" for CIDR &6%cidr%'
+  reason-removed: '&eCustom block reason removed for CIDR &6%cidr%'
+  reasons-list-none: '&cThere are no reasons set!'
+  reasons-list-header: '&eBlock reasons:%br%'
+  reasons-list-data: '&6%cidr% &7- &6%reason%'
+reasons:
+  global: 'I am sorry, but connections from your IP address are disallowed!'

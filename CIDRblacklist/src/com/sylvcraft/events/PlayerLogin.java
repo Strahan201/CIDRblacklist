@@ -12,12 +12,14 @@ public class PlayerLogin implements Listener {
     plugin = instance;
   }
 
-	@EventHandler
+  @EventHandler
   public void onPlayerLogin(PlayerLoginEvent e) {
-		if (!plugin.getConfig().getBoolean("config.active", true)) return;
-		if (!plugin.isBlocked(e.getRealAddress().getHostAddress())) return;
-		
-		e.setKickMessage(plugin.getConfig().getString("messages.blocked", "I'm sorry, but connections from your IP address are disallowed!"));
-		e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+    if (!plugin.getConfig().getBoolean("config.active", true)) return;
+    
+    String blockMessage = plugin.isBlocked(e.getRealAddress().getHostAddress());
+    if (blockMessage.equals("*clear*")) return;
+ 
+    e.setKickMessage(blockMessage);
+    e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
   }
 }
